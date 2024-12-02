@@ -23,11 +23,11 @@ services:
     volumes:
       - /volume1/docker/gluetun:/gluetun
     environment:
-      - VPNSP=nordvpn
-      - OPENVPN_USER=abc
-      - OPENVPN_PASSWORD=abc
-      - REGION=Netherlands
-      # Timezone for accurate log times
+      - VPN_SERVICE_PROVIDER=custom
+      - VPN_TYPE=openvpn
+      - OPENVPN_CUSTOM_CONFIG=/gluetun/openvpn.conf
+      - OPENVPN_USER=your_username
+      - OPENVPN_PASSWORD=your_password
       - TZ=Europe/London
     restart: unless-stopped
 
