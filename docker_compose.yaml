@@ -21,7 +21,7 @@ services:
       - 7878:7878 # radarr
       # - 8686:8686 # lidarr
     volumes:
-      - /volume1/docker/gluetun:/gluetun
+      - /mnt/portainer/gluetun:/gluetun
     environment:
       - VPN_SERVICE_PROVIDER=custom
       - VPN_TYPE=openvpn
@@ -41,11 +41,11 @@ services:
       - UMASK=022
       - WEBUI_PORT=8090
     volumes:
-      - /volume1/docker/qbittorrent/config:/config
-      - /volume1/MediaServer/video/Seeding:/downloads
-      - /volume1/MediaServer/video/Downloads:/tvdownloads
-      - /volume1/MediaServer/video/FilmDownloads:/filmdownloads
-      - /volume1/MediaServer/video/MusicDownloads:/musicdownloads
+      - /mnt/portainer/qbittorrent/config:/config
+      - /mnt/Media/Downloads:/downloads
+      - /mnt/Media/Movies:/movies
+      - /mnt/Media/Series:/series
+      - /mnt/Media/Music:/music
     network_mode: service:vpn
     labels:
       - autoheal=true
@@ -64,7 +64,7 @@ services:
       - PGID=101
       - TZ=GB
     volumes:
-      - /volume1/docker/prowlarr:/config
+      - /mnt/portainer/prowlarr:/config
     restart: unless-stopped
     network_mode: service:vpn
     depends_on:
@@ -79,7 +79,7 @@ services:
       - PGID=101
       - TZ=Europe/London
     volumes:
-      - /volume1/docker/jackett/config:/config
+      - /mnt/portainer/jackett/config:/config
     network_mode: service:vpn
     labels:
       - autoheal=true
@@ -100,9 +100,9 @@ services:
       - TZ=Europe/London
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /volume1/docker/sonarr/config:/config
-      - /volume1/MediaServer/video/TV:/tv
-      - /volume1/MediaServer/video/Downloads:/downloads
+      - /mnt/portainer/sonarr/config:/config
+      - /mnt/Media/Series:/series
+      - /mnt/Media/Downloads:/downloads
     restart: unless-stopped
     network_mode: service:vpn
     depends_on:
@@ -118,25 +118,11 @@ services:
       - TZ=Europe/London
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /volume1/docker/radarr3/config:/config
-      - /volume1/MediaServer/video/Films:/movies
-      - /volume1/MediaServer/video/FilmDownloads:/downloads
+      - /mnt/portainer/radarr3/config:/config
+      - /mnt/Media/Movies:/movies
+      - /mnt/Media/Downloads:/downloads
     restart: unless-stopped
     network_mode: service:vpn
     depends_on:
       - jackett
       - qbittorrent
-
-  get_player:
-    container_name: get_iplayer
-    image: kolonuk/get_iplayer
-    environment:
-      PGID: "101"
-      PUID: "1026"
-    ports:
-      - 7181:8181/tcp
-    restart: unless-stopped
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /volume1/docker/get_iplayer:/root/.get_iplayer:rw
-      - /volume1/MediaServer/video/Downloads/iPlayer:/root/output:rw
