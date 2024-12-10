@@ -25,7 +25,7 @@ services:
     environment:
       - VPN_SERVICE_PROVIDER=custom
       - VPN_TYPE=openvpn
-      # - OPENVPN_CUSTOM_CONFIG=/gluetun/openvpn.conf
+      - OPENVPN_CUSTOM_CONFIG=/mnt/portainer/openvpn.conf
       - OPENVPN_USER=$OPENVPN_USER
       - OPENVPN_PASSWORD=$OPENVPN_PASSWORD
       - TZ=Europe/London
