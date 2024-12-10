@@ -41,8 +41,8 @@ services:
     image: linuxserver/qbittorrent:latest
     container_name: qbittorrent
     environment:
-      - PUID=1026
-      - PGID=101
+      - PUID=$PUID
+      - PGID=$PGID
       - TZ=Europe/London
       - UMASK=022
       - WEBUI_PORT=8090
@@ -66,8 +66,8 @@ services:
     image: hotio/prowlarr:testing
     container_name: prowlarr
     environment:
-      - PUID=1026
-      - PGID=101
+      - PUID=$PUID
+      - PGID=$PGID
       - TZ=GB
     volumes:
       - /mnt/SSD/portainer/prowlarr:/config
@@ -81,8 +81,8 @@ services:
     image: linuxserver/jackett:latest
     container_name: vpn-jackett
     environment:
-      - PUID=1026
-      - PGID=101
+      - PUID=$PUID
+      - PGID=$PGID
       - TZ=Europe/London
     volumes:
       - /mnt/SSD/portainer/jackett/config:/config
@@ -101,8 +101,8 @@ services:
     image: linuxserver/sonarr:latest
     container_name: sonarr
     environment:
-      - PUID=1026
-      - PGID=101
+      - PUID=$PUID
+      - PGID=$PGID
       - TZ=Europe/London
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -119,8 +119,8 @@ services:
     image: linuxserver/radarr:latest
     container_name: radarr
     environment:
-      - PUID=1026
-      - PGID=101
+      - PUID=$PUID
+      - PGID=$PGID
       - TZ=Europe/London
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -137,8 +137,8 @@ services:
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
     environment:
-      - PUID=1026
-      - PGID=101
+      - PUID=$PUID
+      - PGID=$PGID
       - TZ=Europe/London
     volumes:
      - /mnt/SSD/portainer/jellyseerr/config:/config
@@ -153,8 +153,8 @@ services:
       - /mnt/NAS/Media/Movies:/movies
       - /mnt/NAS/Media/Series:/series
     environment:
-      - PUID=1026
-      - PGID=101
+      - PUID=$PUID
+      - PGID=$PGID
       - TZ=Europe/London
       - UMASK=022
     restart: unless-stopped
