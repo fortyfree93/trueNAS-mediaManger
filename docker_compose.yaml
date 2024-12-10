@@ -19,17 +19,22 @@ services:
       - 9117:9117 # jackett
       - 8989:8989 # sonarr
       - 7878:7878 # radarr
+      - 5055:5055 # jellyseer
       # - 8686:8686 # lidarr
     volumes:
-      - /mnt/portainer/gluetun:/gluetun
+      - /mnt/SSD/portainer/gluetun:/gluetun
+      - /mnt/SSD/portainer:/init
     environment:
       - VPN_SERVICE_PROVIDER=custom
       - VPN_TYPE=openvpn
-      - OPENVPN_CUSTOM_CONFIG=/mnt/portainer/openvpn.conf
+      - OPENVPN_CUSTOM_CONFIG= /init/$OPENVPN_CUSTOM_CONFIG
       - OPENVPN_USER=$OPENVPN_USER
       - OPENVPN_PASSWORD=$OPENVPN_PASSWORD
       - TZ=Europe/London
     restart: unless-stopped
+    network_mode: "bridge"
+    dns:
+      - 1.1.1.1
 
   qbittorrent:
     image: linuxserver/qbittorrent:latest
@@ -41,11 +46,11 @@ services:
       - UMASK=022
       - WEBUI_PORT=8090
     volumes:
-      - /mnt/portainer/qbittorrent/config:/config
-      - /mnt/media/Downloads:/downloads
-      - /mnt/media/Movies:/movies
-      - /mnt/media/Series:/series
-      - /mnt/media/Music:/music
+      - /mnt/SSD/portainer/qbittorrent/config:/config
+      - /mnt/NAS/Media/Downloads:/downloads
+      - /mnt/NAS/Media/Movies:/movies
+      - /mnt/NAS/Media/Series:/series
+      - /mnt/NAS/Media/Music:/music
     network_mode: service:vpn
     labels:
       - autoheal=true
@@ -64,7 +69,7 @@ services:
       - PGID=101
       - TZ=GB
     volumes:
-      - /mnt/portainer/prowlarr:/config
+      - /mnt/SSD/portainer/prowlarr:/config
     restart: unless-stopped
     network_mode: service:vpn
     depends_on:
@@ -79,7 +84,7 @@ services:
       - PGID=101
       - TZ=Europe/London
     volumes:
-      - /mnt/portainer/jackett/config:/config
+      - /mnt/SSD/portainer/jackett/config:/config
     network_mode: service:vpn
     labels:
       - autoheal=true
@@ -100,9 +105,9 @@ services:
       - TZ=Europe/London
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /mnt/portainer/sonarr/config:/config
-      - /mnt/media/Series:/series
-      - /mnt/media/Downloads:/downloads
+      - /mnt/SSD/portainer/sonarr/config:/config
+      - /mnt/NAS/Media/Series:/series
+      - /mnt/NAS/Media/Downloads:/downloads
     restart: unless-stopped
     network_mode: service:vpn
     depends_on:
@@ -118,11 +123,23 @@ services:
       - TZ=Europe/London
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /mnt/portainer/radarr3/config:/config
-      - /mnt/media/Movies:/movies
-      - /mnt/media/Downloads:/downloads
+      - /mnt/SSD/portainer/radarr3/config:/config
+      - /mnt/NAS/Media/Movies:/movies
+      - /mnt/NAS/Media/Downloads:/downloads
     restart: unless-stopped
     network_mode: service:vpn
     depends_on:
       - jackett
       - qbittorrent
+      
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    environment:
+      - PUID=1026
+      - PGID=101
+      - TZ=Europe/London
+    volumes:
+     - /mnt/SSD/portainer/jellyseerr/config:/config
+    restart: unless-stopped
+    network_mode: service:vpn
