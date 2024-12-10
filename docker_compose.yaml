@@ -133,6 +133,18 @@ services:
       - jackett
       - qbittorrent
 
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    environment:
+      - PUID=1026
+      - PGID=101
+      - TZ=Europe/London
+    volumes:
+     - /mnt/SSD/portainer/jellyseerr/config:/config
+    restart: unless-stopped
+    network_mode: service:vpn
+
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
