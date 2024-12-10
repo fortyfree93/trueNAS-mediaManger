@@ -42,10 +42,10 @@ services:
       - WEBUI_PORT=8090
     volumes:
       - /mnt/portainer/qbittorrent/config:/config
-      - /mnt/Media/Downloads:/downloads
-      - /mnt/Media/Movies:/movies
-      - /mnt/Media/Series:/series
-      - /mnt/Media/Music:/music
+      - /mnt/media/Downloads:/downloads
+      - /mnt/media/Movies:/movies
+      - /mnt/media/Series:/series
+      - /mnt/media/Music:/music
     network_mode: service:vpn
     labels:
       - autoheal=true
@@ -101,8 +101,8 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /mnt/portainer/sonarr/config:/config
-      - /mnt/Media/Series:/series
-      - /mnt/Media/Downloads:/downloads
+      - /mnt/media/Series:/series
+      - /mnt/media/Downloads:/downloads
     restart: unless-stopped
     network_mode: service:vpn
     depends_on:
@@ -119,8 +119,8 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /mnt/portainer/radarr3/config:/config
-      - /mnt/Media/Movies:/movies
-      - /mnt/Media/Downloads:/downloads
+      - /mnt/media/Movies:/movies
+      - /mnt/media/Downloads:/downloads
     restart: unless-stopped
     network_mode: service:vpn
     depends_on:
