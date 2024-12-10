@@ -20,6 +20,7 @@ services:
       - 8989:8989 # sonarr
       - 7878:7878 # radarr
       - 5055:5055 # jellyseer
+      - 8096:8096 # jellyfin
       # - 8686:8686 # lidarr
     volumes:
       - /mnt/SSD/portainer/gluetun:/gluetun
@@ -131,15 +132,18 @@ services:
     depends_on:
       - jackett
       - qbittorrent
-      
-  jellyseerr:
-    image: fallenbagel/jellyseerr:latest
-    container_name: jellyseerr
+
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    volumes:
+      - /mnt/SSD/portainer/jellyfin/config:/config
+      - /mnt/NAS/Media/Movies:/movies
+      - /mnt/NAS/Media/Series:/series
     environment:
       - PUID=1026
       - PGID=101
       - TZ=Europe/London
-    volumes:
-     - /mnt/SSD/portainer/jellyseerr/config:/config
+      - UMASK=022
     restart: unless-stopped
     network_mode: service:vpn
